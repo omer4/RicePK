@@ -1,0 +1,183 @@
+﻿@model RicePK.Models.DailyRateModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutIndex.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .top-container {
+            background-color: #f1f1f1;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header {
+            color:white;
+            padding: 10px 16px;
+           /* background: #555;
+            color: #f1f1f1;*/
+           background-color:blue;
+        }
+
+        .content {
+            padding: 16px;
+        }
+
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+            .sticky + .content {
+                padding-top: 102px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="top-container">
+            <h1>Scroll Down</h1>
+            <p>Scroll down to see the sticky effect.</p>
+        </div>
+
+        <div class="header" id="myHeader">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label class="form-check-label">Date </label>
+                   
+                    <label >Select a date:</label>
+        <input  id="selectedDate" name="selectedDate"   class="form-control"/>
+                </div>
+                <div class="col-sm-3">
+                    @*<label>Select a Product:</label>*@
+                    @*@Html.DropDownListFor(x => x.ProductId, Model.GetProductList(), "Select Product", new { @class = "form-control" })*@
+                </div>
+                <div class="col-sm-3">
+                    @*<label>Select a City:</label>*@
+                    @*@Html.DropDownListFor(x => x.CityId, Model.GetCityList(), "select City", new { @class = "form-control" })*@
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-outline-light" style="margin-top: 25px;">Find</button>
+                </div>
+               
+               
+                
+
+            </div>
+        </div>
+        <div class="content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <label>Date</label>
+                        </th>
+                        <th>
+                            <label>Product</label>
+                        </th>
+                        <th>
+                            <label>City</label>
+                        </th>
+                        <th>
+                            <label>Min</label>
+                        </th>
+                        <th>
+                            <label>Min</label>
+                        </th>
+
+
+                    </tr>
+                </thead>
+                
+
+
+
+                    <tbody id="ListData">
+                    </tbody>
+
+
+</table>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script src="~/CustumAssets/DatePicker/bootstrap-datepicker.js"></script>
+        <link href="~/CustumAssets/DatePicker/bootstrap-datepicker.css" rel="stylesheet" />
+
+
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>*@
+
+<script>
+        $(document).ready(function () {
+
+            $('#selectedDate').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+
+            });
+            GetData();
+        });
+
+
+
+        window.onscroll = function () { myFunction() };
+
+        var header = document.getElementById("myHeader");
+        var sticky = header.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset > sticky) {
+                header.classList.add("sticky");
+            } else {
+                header.classList.remove("sticky");
+            }
+    }
+    function GetData() {
+        var html = '';
+        $.ajax({
+            type: "GET",
+            url: "/DailyRatelist/getdateRecord",
+            success: function (obj) {
+               
+                console.log("789", obj)
+                $.each(obj, function (key, item) {
+
+
+                    html += '<tr id="row_' + item.DailyRateId + '">';
+                    html += ' < td > ' + item.DailyRateId + '</td >';
+                    html += ' <td> ' + item.DailyRateDate + '</td>';
+                    html += '  <td>' + item.ProductId + ' </td>';
+                    html += ' <td> ' + item.CityId + '</td>';
+                    html += ' <td> ' + item.Min + '</td>';
+                    html += ' <td> ' + item.Max + '</td>'
+
+                    //html += '<td><input type="button" value="Edit"  onclick="editData(' + item.ID + ')"/>';
+                    //html += '<td><input type="button" value="Delete" data-target="sample-modal" onclick ="DeleteEmployee(' + item.ID + ')"}/></td>';
+                    html += ' </tr>';
+
+                });
+                $("#ListData").append(html);
+            }
+
+        });
+    }
+        
+</script>
+
+</body>
+</html>
+
+
+

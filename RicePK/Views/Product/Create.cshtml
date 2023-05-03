@@ -1,0 +1,66 @@
+﻿@model RicePK.Models.tblProduct
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row" style="margin-left:20px;">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header">
+                   <div class="row">
+                       <div class="col-sm-6">
+                           @Html.ActionLink("Back", "Index", "Product", new { @class = "btn btn-danger" })
+                           
+                       </div>
+                       <div class="col-sm-6">
+                           <h4 class="m-0 font-weight-bold text-primary">Product</h4>
+
+                       </div>
+                   </div>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label>Product Category</label>
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.ProductCategoryId, ViewBag.Message as SelectList, "Select Product", new { @class = "form-control" , @required = "required" })
+
+                                @*@Html.EditorFor(model => model.ProductCategoryId, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Product</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

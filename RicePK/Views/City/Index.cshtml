@@ -1,0 +1,187 @@
+﻿@model IEnumerable<RicePK.Models.tblCity>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Tables</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="~/startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.css" rel="stylesheet" />
+
+    <!-- Custom styles for this page -->
+    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">City</h1>
+        <p class="mb-4">
+            under which Products are to be made.
+        </p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                @Html.ActionLink("Add New Category", "Create", "ProductCategories", new { @class = "btn btn-success" })
+                @*<h6 class="m-0 font-weight-bold text-primary">Categories</h6>*@
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th style="width:40%">City</th>
+                                <th style="width:40%">State</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        @*<tfoot>
+                                <tr>
+                                    <th>Product Category</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>*@
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="row_">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CityName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tblState.StateName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.CityId }, new { @class = "btn btn-primary" })
+                                    @*@Html.ActionLink("Delete", "Delete", new { id = item.CityId }, new { @class = "btn btn-danger" })*@
+                                    <button class="btn btn-danger" type="button" value="Delete" onclick="DeleteEmployee(@item.CityId)">Delete</button>
+
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="sample-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Are you sure to want to delete this record?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" onclick="Return()">Cancel</button>
+                    <button class="btn btn-primary" onclick="ConfirmDelete()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="sample" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Information</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Product Category Id has already exist in products table, this record can't be deleted.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" onclick="Returnok()">Ok</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<input type="hidden" id="hiddenId" />
+<script>
+    var DeleteEmployee = function (id) {
+
+        $("#hiddenId").val(id);
+        $("#sample-modal").modal('show');
+
+    }
+    var Return = function () {
+
+        $("#sample-modal").hide();
+    }
+    var Returnok = function () {
+        $("#sample").modal('hide');
+
+        window.location.reload();
+    }
+
+    var ConfirmDelete = function () {
+
+        //$("#hiddenId").val(id);
+        var Qes = $("#hiddenId").val();
+        console.log("Qes")
+
+        $.ajax({
+            type: "POST",
+            url: "/City/DeleteConfirmed",
+            data: { id: Qes },
+            success: function (result) {
+
+                if (result == false) {
+                    $("#sample-modal").modal('hide');
+                    $("#sample").modal('show');
+
+                }
+                else {
+                    $("#sample-modal").modal('hide');
+                    $("#row_" + Qes).remove();
+                    window.location.reload();
+                }
+
+
+
+            }
+        })
+    }
+</script>
+<script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.js"></script>
+<script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="~/startbootstrap-sb-admin-2-gh-pages/js/sb-admin-2.min.js"></script>
+<!-- Page level plugins -->
+<script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
+<link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+<!-- Page level custom scripts -->
+<script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/datatables-demo.js"></script>

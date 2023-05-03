@@ -1,0 +1,192 @@
+﻿@model RicePK.Models.DailyRateModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            @Html.ActionLink("Index", "Displaylist", "DailyRate", new { @class = "btn btn-danger" })
+
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox small">
+                                    <input type="checkbox" class="custom-control-input" id="Continous">
+                                    <label class="custom-control-label" for="Continous">
+                                        Continous
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+                <div class="card-body">
+                    <div class="container">
+
+                        <form id="MyForm">
+                            @Html.HiddenFor(x => x.DailyRateId)
+
+                            <div class="form-group">
+
+                                <label class="form-check-label">Date </label>
+                                @Html.TextBoxFor(x => x.DailyRateDate, new { @class = "form-control" })
+
+
+                                @*@Html.TextAreaFor(x => x.Name, new { @style = "height:20px;class=form-control;placeholder:Write Name" })*@
+
+                            </div>
+                            <div class="form-group">
+                                <label class="form-check-label">City </label>
+                                @Html.DropDownListFor(x => x.CityId, Model.GetCityList(), "select City", new { @class = "form-control" })
+
+                            </div>
+                            <div class="form-group">
+                                <label class="form-check-label">Product </label>
+                                @Html.DropDownListFor(x => x.ProductId, Model.GetProductList(), "Select Product", new { @class = "form-control" })
+
+                            </div>
+
+
+                            <br />
+
+
+                            <br />
+                            <div class="form-group">
+                                <label class="form-check-label">Min </label>
+                                @Html.TextBoxFor(x => x.Min, new { @class = "form-control", @Type = "Number" })
+
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <label class="form-check-label">Max </label>
+                                @Html.TextBoxFor(x => x.Max, new { @class = "form-control", @Type = "Number" })
+
+                            </div>
+                            <div>
+                                <button @*style="background-color:forestgreen;width:80px"*@ class="btn btn-primary" id="btnsubmit" value="submit" type="button">submit</button>
+                                @*<input type="button" id="btnsubmit" value="submit" />*@      `
+                            </div>
+                            <br />
+
+                            <!--<div style="background-color:red;width:80px">-->
+                            @*<a  href="@Url.Action("Details","Display","ProductCategory")"></a>*@
+
+                            @*<button href='@Url.Action("Details","Display","ProductCategory")'>Details</button>*@
+
+                            <!--@Html.ActionLink("Details", "Display", "ProductCategory", new { @class = "btn btn-success" })
+                            </div>-->
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/CustumAssets/DatePicker/bootstrap-datepicker.js"></script>
+    <link href="~/CustumAssets/DatePicker/bootstrap-datepicker.css" rel="stylesheet" />*@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#DailyRateDate').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+
+        });
+
+         if($('#DailyrateId').val() == 0)
+        {
+            var DailyRateDate = '@Model.DailyRateDate.ToString("MM-dd-yyyy")'
+            $('#DailyRateDate').val(DailyRateDate);
+
+        }
+        else
+        {
+            var DailyRateDate = '@Model.DailyRateDate.ToString("MM-dd-yyyy")'
+            $('#DailyRateDate').val(DailyRateDate);
+
+        }
+
+    });
+
+
+    $("#btnsubmit").click(function () {
+        var data = $("#MyForm").serialize();
+        console.log("data")
+        console.log(data)
+        $.ajax({
+            type: "POST",
+            url: "/DailyRate/Save",
+            data: data,
+            success: function (result) {
+                if ($("#Continous").prop('checked') == true) {
+                    $('#ProductId').val("");
+                    $('#Max').val("0");
+                    $('#Min').val("0");
+
+                }
+                else {
+                    window.location.reload();
+                    location.href = "/DailyRate/Displaylist";
+                }
+
+
+
+            }
+        });
+    });
+        //function GetEditData() {
+
+        //    var html = '';
+        //    let id = $("#DailyRateid").val();
+        //    console.log('sss', id)
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/DailyRate/getsaledetailbyid",
+        //        data: { id, id },
+        //        success: function (obj) {
+
+        //            var st = obj.Master;
+
+        //            console.log(obj)
+        //            $("#DailyRateid").val(obj.Master.DailyRateid);
+        //            $("#DailyRateDate").val(obj.Master.VoucherDate ? getCurrentDate(parseInt(obj.Master.VoucherDate.substr(6))) : new Date());
+
+        //            //$("#VoucherDate").val(obj.Master.VoucherDate);
+        //            $("#ProductId").val(obj.Master.ProductId);
+        //            $("#CityId").val(obj.Master.CityId);
+        //            $("#Min").val(obj.Master.Min);
+        //            $("#Max").val(obj.Master.Max);
+
+
+
+        //        }
+
+
+
+
+
+
+
+
+        //    });
+        //}
+
+
+
+
+</script>
