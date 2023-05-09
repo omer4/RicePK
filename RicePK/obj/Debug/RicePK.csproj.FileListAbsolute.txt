@@ -80,3 +80,4 @@ E:\Abeeha Technologies\RicePk\RicePk\RicePK\obj\Debug\RicePK.csproj.CoreCompileI
 E:\Abeeha Technologies\RicePk\RicePk\RicePK\obj\Debug\RicePK.csproj.CopyComplete
 E:\Abeeha Technologies\RicePk\RicePk\RicePK\obj\Debug\RicePK.dll
 E:\Abeeha Technologies\RicePk\RicePk\RicePK\obj\Debug\RicePK.pdb
+E:\Abeeha Technologies\RicePk\RicePk\RicePK\obj\Debug\RicePK.csproj.AssemblyReference.cache
