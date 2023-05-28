@@ -5,3 +5,9 @@
 /.vs
 /RicePK/obj/Debug
 /RicePK/obj/Release
+/RicePK/bin/Release/Publish/bin/roslyn
+/RicePK/bin/Release/Publish/bin
+/RicePK/bin/Release/Publish/Content
+/RicePK/bin/Release/Publish/CustumAssets/DatePicker/bootstrap-datepicker.css
+/RicePK/bin/Release/Publish
+/RicePK/Properties/PublishProfiles
