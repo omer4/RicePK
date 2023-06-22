@@ -20,5 +20,8 @@ namespace RicePK.Models
         public long CityId { get; set; }
         public Nullable<decimal> Min { get; set; }
         public Nullable<decimal> Max { get; set; }
+    
+        public virtual tblCity tblCity { get; set; }
+        public virtual tblProduct tblProduct { get; set; }
     }
 }

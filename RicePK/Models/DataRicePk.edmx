@@ -100,6 +100,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblDailyRate_tblCity">
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="1" />
+          <End Role="tblDailyRate" Type="Self.tblDailyRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCity">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="tblDailyRate">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDailyRate_tblProduct">
+          <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="1" />
+          <End Role="tblDailyRate" Type="Self.tblDailyRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProduct">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="tblDailyRate">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblProduct_tblProductCategory">
           <End Role="tblProductCategory" Type="Self.tblProductCategory" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -126,6 +150,14 @@
           <AssociationSet Name="FK_tblCity_tblState" Association="Self.FK_tblCity_tblState">
             <End Role="tblState" EntitySet="tblState" />
             <End Role="tblCity" EntitySet="tblCity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDailyRate_tblCity" Association="Self.FK_tblDailyRate_tblCity">
+            <End Role="tblCity" EntitySet="tblCity" />
+            <End Role="tblDailyRate" EntitySet="tblDailyRate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDailyRate_tblProduct" Association="Self.FK_tblDailyRate_tblProduct">
+            <End Role="tblProduct" EntitySet="tblProduct" />
+            <End Role="tblDailyRate" EntitySet="tblDailyRate" />
           </AssociationSet>
           <AssociationSet Name="FK_tblProduct_tblProductCategory" Association="Self.FK_tblProduct_tblProductCategory">
             <End Role="tblProductCategory" EntitySet="tblProductCategory" />
@@ -165,6 +197,7 @@
           <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StateId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="tblState" Relationship="Self.FK_tblCity_tblState" FromRole="tblCity" ToRole="tblState" />
+          <NavigationProperty Name="tblDailyRates" Relationship="DataRicePKModel.FK_tblDailyRate_tblCity" FromRole="tblCity" ToRole="tblDailyRate" />
         </EntityType>
         <EntityType Name="tblDailyRate">
           <Key>
@@ -176,6 +209,8 @@
           <Property Name="CityId" Type="Int64" Nullable="false" />
           <Property Name="Min" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Max" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="tblCity" Relationship="DataRicePKModel.FK_tblDailyRate_tblCity" FromRole="tblDailyRate" ToRole="tblCity" />
+          <NavigationProperty Name="tblProduct" Relationship="DataRicePKModel.FK_tblDailyRate_tblProduct" FromRole="tblDailyRate" ToRole="tblProduct" />
         </EntityType>
         <EntityType Name="tblFacilitator">
           <Key>
@@ -195,6 +230,7 @@
           <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProductCategoryId" Type="Int64" />
           <NavigationProperty Name="tblProductCategory" Relationship="Self.FK_tblProduct_tblProductCategory" FromRole="tblProduct" ToRole="tblProductCategory" />
+          <NavigationProperty Name="tblDailyRates" Relationship="DataRicePKModel.FK_tblDailyRate_tblProduct" FromRole="tblProduct" ToRole="tblDailyRate" />
         </EntityType>
         <EntityType Name="tblProductCategory">
           <Key>
@@ -266,7 +302,39 @@
             <End Role="tblProductCategory" EntitySet="tblProductCategories" />
             <End Role="tblProduct" EntitySet="tblProducts" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblDailyRate_tblCity" Association="DataRicePKModel.FK_tblDailyRate_tblCity">
+            <End Role="tblCity" EntitySet="tblCities" />
+            <End Role="tblDailyRate" EntitySet="tblDailyRates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDailyRate_tblProduct" Association="DataRicePKModel.FK_tblDailyRate_tblProduct">
+            <End Role="tblProduct" EntitySet="tblProducts" />
+            <End Role="tblDailyRate" EntitySet="tblDailyRates" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_tblDailyRate_tblCity">
+          <End Type="DataRicePKModel.tblCity" Role="tblCity" Multiplicity="1" />
+          <End Type="DataRicePKModel.tblDailyRate" Role="tblDailyRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCity">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="tblDailyRate">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDailyRate_tblProduct">
+          <End Type="DataRicePKModel.tblProduct" Role="tblProduct" Multiplicity="1" />
+          <End Type="DataRicePKModel.tblDailyRate" Role="tblDailyRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProduct">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="tblDailyRate">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

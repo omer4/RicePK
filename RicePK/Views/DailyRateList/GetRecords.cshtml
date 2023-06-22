@@ -1,0 +1,53 @@
+﻿@model List<RicePK.Models.tblDailyRate>
+    @{ 
+        var states = Model.Select(x => x.tblCity.tblState).Distinct().ToList();
+        foreach(var state in states)
+        {
+            var cities = Model.Where(x => x.tblCity.StateId == state.StateId).Select(x => x.tblCity).Distinct().ToList();
+           
+                <div id="state@(state.StateId)" class="mainstatewrapper" >
+                    <div class="statewrapper">
+                        <h3 class="stateheading">@state.StateName</h3>
+                        @foreach (var city in cities)
+                        {
+                    <div class="citywrapper">
+                        <h4 class="cityheading">@city.CityName</h4>
+                        @{
+                            var products = Model.Where(x => x.CityId == city.CityId).ToList();
+                            <div class="product headingdiv">
+                                <label class="productname">
+                                   Variety
+                                </label>
+                                <div class="productminmax ">
+                                    <label class="minmaxvalue">
+                                        Min - Max
+                                    </label>
+
+                                </div>
+
+                            </div>
+                            foreach (var product in products)
+                            {
+                                <div class="product">
+                                    <label class="productname">
+                                        @product.tblProduct.ProductName
+                                    </label>
+                                    <div class="productminmax ">
+                                        <label class="minmaxvalue">
+                                            @product.Min - @product.Max
+                                        </label>
+
+                                    </div>
+
+                                </div>
+                            }
+                        }
+
+                    </div>
+                            
+                        }
+                    </div>
+                   
+                </div>
+            }
+    }

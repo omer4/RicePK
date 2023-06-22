@@ -14,10 +14,18 @@ namespace RicePK.Models
     
     public partial class tblCity
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblCity()
+        {
+            this.tblDailyRates = new HashSet<tblDailyRate>();
+        }
+    
         public long CityId { get; set; }
         public string CityName { get; set; }
         public long StateId { get; set; }
     
         public virtual tblState tblState { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblDailyRate> tblDailyRates { get; set; }
     }
 }

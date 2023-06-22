@@ -30,7 +30,7 @@
         }
 
         .content {
-            padding: 16px;
+            padding: 2px;
         }
 
         .sticky {
@@ -46,29 +46,26 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="top-container">
-            <h1>Scroll Down</h1>
-            <p>Scroll down to see the sticky effect.</p>
-        </div>
+       
 
         <div class="header" id="myHeader">
             <div class="row">
                 <div class="col-sm-3">
-                    <label class="form-check-label">Date </label>
+                    <label class="form-check-label">Date</label>
                    
-                    <label >Select a date:</label>
-        <input  id="selectedDate" name="selectedDate"   class="form-control"/>
+                   
+        <input  id="selectedDate" name="selectedDate" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" type="date"   class="form-control"/>
                 </div>
                 <div class="col-sm-3">
-                    @*<label>Select a Product:</label>*@
-                    @*@Html.DropDownListFor(x => x.ProductId, Model.GetProductList(), "Select Product", new { @class = "form-control" })*@
+                    <label>Product</label>
+                    @Html.DropDownListFor(x => x.ProductId, Model.GetProductList(), "Select Product", new { @class = "form-control multiselect" ,@multiple="multiple"})
                 </div>
                 <div class="col-sm-3">
-                    @*<label>Select a City:</label>*@
-                    @*@Html.DropDownListFor(x => x.CityId, Model.GetCityList(), "select City", new { @class = "form-control" })*@
+                    <label>City</label>
+                    @Html.DropDownListFor(x => x.CityId, Model.GetCityList(), "select City", new { @class = "form-control multiselect", @multiple = "multiple" })
                 </div>
                 <div class="col-sm-3">
-                    <button type="button" class="btn btn-outline-light" style="margin-top: 25px;">Find</button>
+                    <button type="button" class="btn btn-outline-light" style="margin-top: 25px;" onclick="GetData()">Find</button>
                 </div>
                
                
@@ -76,7 +73,8 @@
 
             </div>
         </div>
-        <div class="content">
+        <div class="content" id="ratesdata">
+            
             <table class="table">
                 <thead>
                     <tr>
@@ -121,12 +119,12 @@
 
 <script>
         $(document).ready(function () {
+          //  InitiateMultiSelect("multiselect");
+            //$('#selectedDate').datepicker({
+            //    format: 'dd-mm-yyyy',
+            //    autoclose: true,
 
-            $('#selectedDate').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-
-            });
+            //});
             GetData();
         });
 
@@ -147,28 +145,29 @@
     function GetData() {
         var html = '';
         $.ajax({
-            type: "GET",
-            url: "/DailyRatelist/getdateRecord",
+            type: "POST",
+            url: "/DailyRatelist/GetRecords",
+            data: { "Date": $("#selectedDate").val(), "productid": $("#ProductId").val(), "CityId": $("#cityid").val()},
             success: function (obj) {
                
-                console.log("789", obj)
-                $.each(obj, function (key, item) {
+                $("#ratesdata").html(obj);
+                //$.each(obj, function (key, item) {
 
 
-                    html += '<tr id="row_' + item.DailyRateId + '">';
-                    html += ' < td > ' + item.DailyRateId + '</td >';
-                    html += ' <td> ' + item.DailyRateDate + '</td>';
-                    html += '  <td>' + item.ProductId + ' </td>';
-                    html += ' <td> ' + item.CityId + '</td>';
-                    html += ' <td> ' + item.Min + '</td>';
-                    html += ' <td> ' + item.Max + '</td>'
+                //    html += '<tr id="row_' + item.DailyRateId + '">';
+                //    html += ' < td > ' + item.DailyRateId + '</td >';
+                //    html += ' <td> ' + item.DailyRateDate + '</td>';
+                //    html += '  <td>' + item.ProductId + ' </td>';
+                //    html += ' <td> ' + item.CityId + '</td>';
+                //    html += ' <td> ' + item.Min + '</td>';
+                //    html += ' <td> ' + item.Max + '</td>'
 
-                    //html += '<td><input type="button" value="Edit"  onclick="editData(' + item.ID + ')"/>';
-                    //html += '<td><input type="button" value="Delete" data-target="sample-modal" onclick ="DeleteEmployee(' + item.ID + ')"}/></td>';
-                    html += ' </tr>';
+                //    //html += '<td><input type="button" value="Edit"  onclick="editData(' + item.ID + ')"/>';
+                //    //html += '<td><input type="button" value="Delete" data-target="sample-modal" onclick ="DeleteEmployee(' + item.ID + ')"}/></td>';
+                //    html += ' </tr>';
 
-                });
-                $("#ListData").append(html);
+                //});
+                //$("#ListData").append(html);
             }
 
         });

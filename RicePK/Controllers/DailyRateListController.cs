@@ -15,20 +15,21 @@ namespace RicePK.Controllers
        
         public ActionResult Index()
         {
-           
-            
-           
-                
-                return View();
+
+            DailyRateModel a = new DailyRateModel();
+
+
+            return View(a);
           
            
         }
-        [HttpGet]
-        public JsonResult getdateRecord()
+        [HttpPost]
+        public PartialViewResult GetRecords(DateTime date,long[] productid=null,long[] cityid=null)
         {
             DailyRateModel a = new DailyRateModel();
-           var obj = a.SelectAll();
-            return Json(obj, JsonRequestBehavior.AllowGet);
+            var obj = a.GetRates(date, productid, cityid);
+            return PartialView(obj);
+            //return Json(obj, JsonRequestBehavior.AllowGet);
         }
     }
 }

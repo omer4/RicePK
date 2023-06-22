@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -42,6 +43,20 @@ namespace RicePK.Models
             TimeStamp,
             LogSource,
             WhereClause
+        }
+        public List<tblDailyRate> GetRates(DateTime date,long[] productid=null,long[] cityid = null)
+        {
+
+            var results = db.tblDailyRates.Where(x => DbFunctions.TruncateTime(x.DailyRateDate) == DbFunctions.TruncateTime(date)).ToList();
+            if(productid != null)
+            {
+                results = results.Where(x => productid.Contains(x.ProductId)).ToList();
+            }
+            if(cityid != null)
+            {
+                results = results.Where(x => cityid.Contains(x.CityId)).ToList();
+            }
+            return results;
         }
         public DataTable SelectAll()
         {

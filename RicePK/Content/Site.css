@@ -22,3 +22,88 @@ select,
 textarea {
     max-width: 280px;
 }
+.preloader {
+    align-items: center;
+    background: #b2b2b285;
+    display: none;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    transition: opacity 0.2s linear;
+    width: 100%;
+    z-index: 9999;
+    opacity: 1;
+    transform: opacity 1s linear;
+}
+.mainstatewrapper {
+    float: left;
+    width: 100%;
+}
+h3.stateheading {
+    background-color: #02391f;
+    color: white;
+    padding: 2px;
+    margin-bottom: 2px;
+    width: 100%;
+    text-align: center;
+}
+h4.cityheading {
+    text-align: center;
+    /* background-color: aliceblue; */
+    width: 100%;
+    float: left;
+   font-weight:bold;
+   color:black;
+}
+.product {
+    width: 100%;
+    float: left;
+    margin: 0;
+    /* box-shadow: 0 0 5px 1px #786b6b; */
+    padding: 2px 0;
+    border-radius: 5px;
+}
+label.productname {
+    max-width: 70%;
+    width: 70%;
+    /* text-align: center; */
+    /* background-color: #a19393; */
+    /* color: white; */
+    float: left;
+    margin-bottom: 0px !important;
+}
+.productminmax {
+    width: 30%;
+    float: left;
+}
+label.minvalue {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+label.maxvalue {
+    width: 50%;
+    text-align: center;
+}
+.citywrapper {
+    float: left;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 2px;
+    margin-bottom: 5px;
+}
+.statewrapper {
+    float: left;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 2px;
+    margin-bottom: 5px;
+}
+.product.headingdiv {
+    background-color: #036c3b;
+    color: white;
+    padding: 2px;
+    border-radius: 0px;
+}
