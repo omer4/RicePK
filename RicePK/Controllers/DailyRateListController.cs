@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace RicePK.Controllers
 {
-    //[SessionTimeOut]
+    
     public class DailyRateListController : Controller
     {
         DataRicePKEntities db = new DataRicePKEntities();

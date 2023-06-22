@@ -15,7 +15,8 @@ namespace RicePK
 
             if (HttpContext.Current.Session["UserType"] == null)
             {
-                filterContext.Result = new RedirectResult("/Login/Index");
+                //filterContext.Result = new RedirectResult("/Login/Index");
+                filterContext.Result = new RedirectResult("/DailyRateList/Index");
             }
 
         }
